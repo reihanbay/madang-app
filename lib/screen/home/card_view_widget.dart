@@ -1,10 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:madang_app/data/model/restaurant_list_response.dart';
+import 'package:madang_app/static/nav_route.dart';
 
 class CardView extends StatelessWidget {
-  const CardView({
-    super.key,
-  });
+  final Restaurant item;
+  const CardView({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class CardView extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
           onTap: () {
-
+            Navigator.pushNamed(context, NavRoute.detailRestaurant.route, arguments: item.id);
           },
           child: Padding(
             padding: const EdgeInsets.all(10),
@@ -40,14 +41,14 @@ class CardView extends StatelessWidget {
                 Flexible(
                   flex: 1,
                   child: Container(
-                    constraints: BoxConstraints(
-                      minWidth: 80,
-                      minHeight: 80
-                    ),
+                    constraints: BoxConstraints(minWidth: 80, minHeight: 80),
                     decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.secondaryContainer,
-                        borderRadius: BorderRadius.circular(16)),
-                    child: SvgPicture.asset('assets/bowl.svg'),
+                        borderRadius: BorderRadius.circular(16),
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: CachedNetworkImageProvider('https://restaurant-api.dicoding.dev/images/medium/${item.pictureId}')
+                            )),
                   ),
                 ),
                 Expanded(
@@ -58,18 +59,19 @@ class CardView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Rumah Makan Padang",
+                        Text(item.name,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium
                                 ?.copyWith(fontWeight: FontWeight.w500)),
-                        Text("Medan",
+                        Text(item.city,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
                                 ?.copyWith(
-                                    color:
-                                        Theme.of(context).colorScheme.secondary)),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary)),
                         const SizedBox(height: 10),
                         Row(
                           children: [
@@ -77,7 +79,7 @@ class CardView extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.primary,
                                 size: 24),
                             const SizedBox(width: 2),
-                            Text("4.8",
+                            Text(item.rating.toString(),
                                 style: Theme.of(context).textTheme.bodyMedium),
                           ],
                         )

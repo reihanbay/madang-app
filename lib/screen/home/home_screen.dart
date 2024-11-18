@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:madang_app/provider/list_restaurant_provider.dart';
 import 'package:madang_app/screen/home/card_view_widget.dart';
+import 'package:madang_app/static/list_result_state.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,13 +19,21 @@ class _HomeScreenState extends State<HomeScreen> {
     controllerSearch.dispose();
     super.dispose();
   }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<ListRestaurantProvider>().fetchRestaurants();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final _nodes = FocusNode();
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: ListView(
+        padding: const EdgeInsets.only(left: 24, right: 24, top: 24),
+        child: Column(
           children: [
             Container(
               margin: const EdgeInsets.only(bottom: 8),
@@ -57,11 +68,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 prefixIcon: const Icon(Icons.search)
               ),
             ),
-            const SizedBox(height: 24),
-            const CardView(),
-            const CardView(),
-            const CardView(),
-            
+            const SizedBox(height: 16),
+            Consumer<ListRestaurantProvider>(builder: (context, value, child) {
+              return switch (value.resultList) {
+                ListResultLoadingState() => const Center(child: CircularProgressIndicator()),
+                ListResultErrorState(error: var message) => Center(child: Text(message)),
+                ListResultLoadedState(data: var data) => 
+                Flexible(child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    final item = data[index];
+                    return CardView(item: item);
+                  }
+                )),
+                _ => const SizedBox()
+              };
+            }),
           ],
         ),
       ),
