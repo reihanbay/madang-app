@@ -28,8 +28,7 @@ class _DetailRestaurantScreenState extends State<DetailRestaurantScreen> {
         return switch (value.resultDetail) {
           DetailResultLoadingState() => const Center(child: CircularProgressIndicator()),
           DetailResultErrorState(error: var message) => Center(child: Text(message)),
-          DetailResultLoadedState(item: var item) => SingleChildScrollView(
-            child: BodyDetailWidget(dataDetail: item)),
+          DetailResultLoadedState(item: var item) =>BodyDetailWidget(dataDetail: item),
           _ => const SizedBox()
         };
       }),
