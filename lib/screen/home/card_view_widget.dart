@@ -31,7 +31,8 @@ class CardView extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
           onTap: () {
-            Navigator.pushNamed(context, NavRoute.detailRestaurant.route, arguments: item.id);
+            Navigator.pushNamed(context, NavRoute.detailRestaurant.route,
+                arguments: item.id);
           },
           child: Padding(
             padding: const EdgeInsets.all(10),
@@ -40,15 +41,24 @@ class CardView extends StatelessWidget {
               children: [
                 Flexible(
                   flex: 1,
-                  child: Container(
-                    constraints: const BoxConstraints(minWidth: 80, minHeight: 80),
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.secondaryContainer,
-                        borderRadius: BorderRadius.circular(16),
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: CachedNetworkImageProvider('https://restaurant-api.dicoding.dev/images/medium/${item.pictureId}')
-                            )),
+                  child: Hero(
+                    tag: item.pictureId,
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          'https://restaurant-api.dicoding.dev/images/medium/${item.pictureId}',
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: 80.0,
+                        height: 80.0,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.secondaryContainer,
+                          borderRadius: BorderRadius.circular(16),
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.cover),
+                        ),
+                      ),
+                      placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
                   ),
                 ),
                 Expanded(

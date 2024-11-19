@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:madang_app/provider/list_restaurant_provider.dart';
 import 'package:madang_app/screen/home/card_view_widget.dart';

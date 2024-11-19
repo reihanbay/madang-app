@@ -8,7 +8,6 @@ class ListRestaurantProvider extends ChangeNotifier {
   final ApiServices _apiServices;
 
   ListRestaurantProvider(this._apiServices);
-
   ListResultState _resultList = ListResultNoneState();
   ListResultState get resultList => _resultList;
 
@@ -31,7 +30,7 @@ class ListRestaurantProvider extends ChangeNotifier {
       } else {
         result = await _apiServices.searchRestaurants(query);
         result as SearchRestaurantsResponse;
-        if (result.founded==0) {
+        if (result.founded == 0) {
           _resultList = ListResultErrorState("Not Found");
           notifyListeners();
         } else {

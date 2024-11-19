@@ -1,6 +1,5 @@
 
 import 'dart:convert';
-
 import 'package:madang_app/data/model/restaurant_detail_response.dart';
 import 'package:madang_app/data/model/restaurant_list_response.dart';
 import 'package:http/http.dart' as http;
@@ -41,13 +40,18 @@ class ApiServices {
   }
 
   Future<ReviewsResponse> postReviews(String review, String name, String id) async {
-    final response = await http.post(Uri.parse('$_baseUrl/review'), body: jsonEncode(<String, String> {
+    final response = await http.post(Uri.parse('$_baseUrl/review'), 
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    
+    body: jsonEncode(<String, String> {
       'id' : id,
       'name' : name,
       'review' : review
       })
     );
-
+    
     if(response.statusCode == 200 || response.statusCode == 201) {
       return ReviewsResponse.fromJson(jsonDecode(response.body)as Map<String, dynamic>);
     } else {

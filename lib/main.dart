@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    final brightness = View.of(context).platformDispatcher.platformBrightness;
     TextTheme textTheme = createTextTheme(context, "Poppins", "Poppins");
 
     MaterialTheme theme = MaterialTheme(textTheme);
@@ -30,7 +29,7 @@ class MyApp extends StatelessWidget {
       title: 'Madang App',
       darkTheme: theme.dark(),
       themeMode: ThemeMode.system,
-      theme: brightness == Brightness.light ? theme.light() : theme.dark(),
+      theme: theme.light(),
       initialRoute: NavRoute.home.route,
       routes: {
         NavRoute.home.route: (context) => const HomeScreen(),

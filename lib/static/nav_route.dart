@@ -4,5 +4,4 @@ enum NavRoute {
 
   const NavRoute(this.route);
   final String route;
-
 }

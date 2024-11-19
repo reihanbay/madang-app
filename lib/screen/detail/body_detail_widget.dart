@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:madang_app/data/model/restaurant_detail_response.dart';
 
+
 class BodyDetailWidget extends StatelessWidget {
   final Restaurant dataDetail;
   const BodyDetailWidget({super.key, required this.dataDetail});
@@ -14,17 +15,20 @@ class BodyDetailWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            constraints: const BoxConstraints(
-                minWidth: 360, maxWidth: double.infinity, minHeight: 412),
-            decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondaryContainer,
-                borderRadius:
-                    const BorderRadius.vertical(bottom: Radius.circular(24)),
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: CachedNetworkImageProvider(
-                        "https://restaurant-api.dicoding.dev/images/medium/${dataDetail.pictureId}"))),
+          Hero(
+            tag: dataDetail.pictureId,
+            child: Container(
+              constraints: const BoxConstraints(
+                  minWidth: 360, maxWidth: double.infinity, minHeight: 412),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondaryContainer,
+                  borderRadius:
+                      const BorderRadius.vertical(bottom: Radius.circular(24)),
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: CachedNetworkImageProvider(
+                          "https://restaurant-api.dicoding.dev/images/medium/${dataDetail.pictureId}"))),
+            ),
           ),
           Container(
             margin: const EdgeInsets.all(24),
@@ -49,7 +53,6 @@ class BodyDetailWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // IconButton(onPressed: () {}, icon: Icon(Icons.bookmark))
                   ],
                 ),
                 const SizedBox.square(
@@ -120,9 +123,9 @@ class BodyDetailWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    ItemMenu(context, 'assets/food_icon.svg', 'foods'),
+                    itemMenu(context, 'assets/food_icon.svg', 'foods'),
                     const SizedBox(width: 16),
-                    ItemMenu(context, 'assets/drink_icon.svg', 'drinks'),
+                    itemMenu(context, 'assets/drink_icon.svg', 'drinks'),
                   ],
                 ),
               ],
@@ -143,7 +146,7 @@ class BodyDetailWidget extends StatelessWidget {
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
-                children: dataDetail.customerReviews
+                children: dataDetail.customerReviews.reversed
                     .map((item) => itemReview(context, item))
                     .toList(),
               ),
@@ -172,13 +175,12 @@ class BodyDetailWidget extends StatelessWidget {
                 .textTheme
                 .bodyMedium
                 ?.copyWith(color: Theme.of(context).colorScheme.secondary)),
-        const SizedBox(
-            height: 12, child: Divider(height: 1, thickness: 1)),
+        const SizedBox(height: 12, child: Divider(height: 1, thickness: 1)),
       ],
     );
   }
 
-  Column ItemMenu(BuildContext context, String url, String flagMenu) {
+  Column itemMenu(BuildContext context, String url, String flagMenu) {
     String label = "";
     List<Category> list = [];
     if (flagMenu == 'foods') {
