@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:madang_app/data/model/restaurant_detail_response.dart';
@@ -22,7 +23,7 @@ class BodyDetailWidget extends StatelessWidget {
                     const BorderRadius.vertical(bottom: Radius.circular(24)),
                 image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(
+                    image: CachedNetworkImageProvider(
                         "https://restaurant-api.dicoding.dev/images/medium/${dataDetail.pictureId}"))),
           ),
           Container(
@@ -128,7 +129,7 @@ class BodyDetailWidget extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+            margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
             child: Text("Reviews",
                 style: Theme.of(context)
                     .textTheme
@@ -172,7 +173,7 @@ class BodyDetailWidget extends StatelessWidget {
                 .bodyMedium
                 ?.copyWith(color: Theme.of(context).colorScheme.secondary)),
         const SizedBox(
-            height: 12, child: const Divider(height: 1, thickness: 1)),
+            height: 12, child: Divider(height: 1, thickness: 1)),
       ],
     );
   }
@@ -187,7 +188,7 @@ class BodyDetailWidget extends StatelessWidget {
       label = "Minuman";
       list = dataDetail.menus.drinks;
     }
-    _menu() {
+    menu() {
       return list.map((menu) => Container(
           padding: const EdgeInsets.all(6),
           margin: const EdgeInsets.all(2),
@@ -221,7 +222,7 @@ class BodyDetailWidget extends StatelessWidget {
                                   .bodyLarge
                                   ?.copyWith(fontWeight: FontWeight.w600)),
                           const SizedBox(height: 12),
-                          ..._menu()
+                          ...menu()
                         ],
                       ),
                     ),

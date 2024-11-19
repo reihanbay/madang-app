@@ -41,7 +41,7 @@ class CardView extends StatelessWidget {
                 Flexible(
                   flex: 1,
                   child: Container(
-                    constraints: BoxConstraints(minWidth: 80, minHeight: 80),
+                    constraints: const BoxConstraints(minWidth: 80, minHeight: 80),
                     decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.secondaryContainer,
                         borderRadius: BorderRadius.circular(16),
@@ -54,7 +54,7 @@ class CardView extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: Container(
-                    margin: EdgeInsets.only(left: 12),
+                    margin: const EdgeInsets.only(left: 12),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
