@@ -1,9 +1,11 @@
+import 'package:madang_app/data/model/restaurant_list_response.dart';
+
 sealed class ListResultState {}
 
 class ListResultNoneState extends ListResultState {}
 class ListResultLoadingState extends ListResultState {}
-class ListResultLoadedState<T> extends ListResultState {
-  final List<T> data;
+class ListResultLoadedState extends ListResultState {
+  final List<Restaurant> data;
 
   ListResultLoadedState(this.data);
 }

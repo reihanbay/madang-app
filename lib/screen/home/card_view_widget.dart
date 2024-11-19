@@ -9,60 +9,42 @@ class CardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      width: double.infinity,
-      constraints: const BoxConstraints(maxWidth: 364, maxHeight: 104),
-      decoration: BoxDecoration(
+    return InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: () {
+          Navigator.pushNamed(context, NavRoute.detailRestaurant.route,
+              arguments: item.id);
+        },
+        child: Card(
           color: Theme.of(context).colorScheme.onSecondary,
-          boxShadow: [
-            BoxShadow(
-                color: Theme.of(context)
-                    .colorScheme
-                    .secondaryContainer
-                    .withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 10,
-                offset: const Offset(0, 5))
-          ],
-          borderRadius: BorderRadius.circular(16)),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(16),
-          onTap: () {
-            Navigator.pushNamed(context, NavRoute.detailRestaurant.route,
-                arguments: item.id);
-          },
+          shadowColor:
+              Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.1),
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Flexible(
-                  flex: 1,
-                  child: Hero(
-                    tag: item.pictureId,
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          'https://restaurant-api.dicoding.dev/images/medium/${item.pictureId}',
-                      imageBuilder: (context, imageProvider) => Container(
-                        width: 80.0,
-                        height: 80.0,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.secondaryContainer,
-                          borderRadius: BorderRadius.circular(16),
-                          image: DecorationImage(
-                              image: imageProvider, fit: BoxFit.cover),
-                        ),
+                Hero(
+                  tag: item.pictureId,
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        'https://restaurant-api.dicoding.dev/images/medium/${item.pictureId}',
+                    imageBuilder: (context, imageProvider) => Container(
+                      width: 80.0,
+                      height: 80.0,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.secondaryContainer,
+                        borderRadius: BorderRadius.circular(16),
+                        image: DecorationImage(
+                            image: imageProvider, fit: BoxFit.cover),
                       ),
-                      placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
+                    placeholder: (context, url) =>
+                        const Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ),
                 Expanded(
-                  flex: 3,
                   child: Container(
                     margin: const EdgeInsets.only(left: 12),
                     child: Column(
@@ -100,8 +82,6 @@ class CardView extends StatelessWidget {
               ],
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

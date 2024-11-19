@@ -24,7 +24,7 @@ class ListRestaurantProvider extends ChangeNotifier {
           _resultList = ListResultErrorState(result.message);
           notifyListeners();
         } else {
-          _resultList = ListResultLoadedState<Restaurant>(result.restaurants);
+          _resultList = ListResultLoadedState(result.restaurants);
           notifyListeners();
         }
       } else {
@@ -34,7 +34,7 @@ class ListRestaurantProvider extends ChangeNotifier {
           _resultList = ListResultErrorState("Not Found");
           notifyListeners();
         } else {
-          _resultList = ListResultLoadedState<Restaurant>(result.restaurants);
+          _resultList = ListResultLoadedState(result.restaurants);
           notifyListeners();
         }
       }
