@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:madang_app/data/model/restaurant_list_response.dart';
-import 'package:madang_app/provider/list_restaurant_provider.dart';
+import 'package:madang_app/provider/home/list_restaurant_provider.dart';
 import 'package:madang_app/screen/home/card_view_widget.dart';
 import 'package:madang_app/screen/home/card_viewgrid_widget.dart';
 import 'package:madang_app/static/list_result_state.dart';
@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      if(mounted) {
+      if (mounted) {
         context.read<ListRestaurantProvider>().fetchRestaurants();
       }
     });
@@ -62,15 +62,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   ListResultErrorState(error: var message) =>
                     Expanded(child: Center(child: Text(message))),
                   ListResultLoadedState(data: var data) => Flexible(
-                      child: LayoutBuilder(builder: (context, constraint) {
-                        if (constraint.maxWidth <= 600) {
-                          return RestaurantList(data: data);
-                        } else if (constraint.maxWidth <= 1200){
-                          return RestaurantGrid(data: data, gridCount: 3);
-                        } else {
-                          return RestaurantGrid(data: data, gridCount: 5);
-                        }
-                      })),
+                        child: LayoutBuilder(builder: (context, constraint) {
+                      if (constraint.maxWidth <= 600) {
+                        return RestaurantList(data: data);
+                      } else if (constraint.maxWidth <= 1200) {
+                        return RestaurantGrid(data: data, gridCount: 3);
+                      } else {
+                        return RestaurantGrid(data: data, gridCount: 5);
+                      }
+                    })),
                   _ => const SizedBox()
                 };
               }),
@@ -102,12 +102,14 @@ class SearchField extends StatelessWidget {
       onFieldSubmitted: (value) {
         Timer(const Duration(milliseconds: 200), () {
           Future.microtask(() {
-            context.read<ListRestaurantProvider>().fetchRestaurants(query: value);
+            context
+                .read<ListRestaurantProvider>()
+                .fetchRestaurants(query: value);
           });
         });
       },
       onChanged: (value) {
-        if(value.isEmpty) {
+        if (value.isEmpty) {
           Future.microtask(() {
             context.read<ListRestaurantProvider>().fetchRestaurants();
           });
@@ -115,17 +117,16 @@ class SearchField extends StatelessWidget {
       },
       decoration: InputDecoration(
           hintText: "Find Restaurant",
-          hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.secondary),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8)),
+          hintStyle: Theme.of(context)
+              .textTheme
+              .bodyMedium
+              ?.copyWith(color: Theme.of(context).colorScheme.secondary),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
                   width: 2,
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onPrimaryContainer)),
+                  color: Theme.of(context).colorScheme.onPrimaryContainer)),
           prefixIcon: const Icon(Icons.search)),
     );
   }
@@ -134,18 +135,21 @@ class SearchField extends StatelessWidget {
 class RestaurantGrid extends StatelessWidget {
   final List<Restaurant> data;
   final int gridCount;
-  const RestaurantGrid({super.key, required this.data, required this.gridCount});
+  const RestaurantGrid(
+      {super.key, required this.data, required this.gridCount});
 
   @override
   Widget build(BuildContext context) {
     return GridView.count(
-      mainAxisSpacing: 16,
-      crossAxisSpacing: 16,
-      crossAxisCount: gridCount, children: data.map((item){
-      return CardViewGrid(item: item);
-    }).toList());
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 16,
+        crossAxisCount: gridCount,
+        children: data.map((item) {
+          return CardViewGrid(item: item);
+        }).toList());
   }
 }
+
 class RestaurantList extends StatelessWidget {
   const RestaurantList({
     super.key,
