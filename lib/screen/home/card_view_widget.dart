@@ -52,6 +52,8 @@ class CardView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(item.name,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium
@@ -78,6 +80,11 @@ class CardView extends StatelessWidget {
                       ],
                     ),
                   ),
+                ),
+                const SizedBox(width: 16),
+                InkWell(
+                  onTap: () {},
+                  child: const Icon(Icons.favorite_outline),
                 )
               ],
             ),

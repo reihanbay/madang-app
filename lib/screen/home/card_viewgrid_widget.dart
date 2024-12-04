@@ -17,10 +17,8 @@ class CardViewGrid extends StatelessWidget {
       },
       child: Card(
         color: Theme.of(context).colorScheme.onSecondary,
-        shadowColor: Theme.of(context)
-                  .colorScheme
-                  .secondaryContainer
-                  .withOpacity(0.1),
+        shadowColor:
+            Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.1),
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
@@ -41,7 +39,8 @@ class CardViewGrid extends StatelessWidget {
                             image: imageProvider, fit: BoxFit.cover),
                       ),
                     ),
-                    placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                    placeholder: (context, url) =>
+                        Center(child: CircularProgressIndicator()),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ),
@@ -52,19 +51,13 @@ class CardViewGrid extends StatelessWidget {
                       .titleMedium
                       ?.copyWith(fontWeight: FontWeight.w500)),
               Text(item.city,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .secondary)),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.secondary)),
               const SizedBox(height: 10),
               Row(
                 children: [
                   Icon(Icons.star,
-                      color: Theme.of(context).colorScheme.primary,
-                      size: 24),
+                      color: Theme.of(context).colorScheme.primary, size: 24),
                   const SizedBox(width: 2),
                   Text(item.rating.toString(),
                       style: Theme.of(context).textTheme.bodyMedium),
