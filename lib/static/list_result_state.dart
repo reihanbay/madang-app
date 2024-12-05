@@ -5,7 +5,7 @@ sealed class ListResultState {}
 class ListResultNoneState extends ListResultState {}
 class ListResultLoadingState extends ListResultState {}
 class ListResultLoadedState extends ListResultState {
-  final List<Restaurant> data;
+  final List<Restaurants> data;
 
   ListResultLoadedState(this.data);
 }

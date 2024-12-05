@@ -18,16 +18,18 @@ class _ReviewFormState extends State<ReviewForm> {
     nameController.dispose();
     reviewController.dispose();
   }
+
   void submitForm() {
     if (formKey.currentState!.validate()) {
       // Menutup bottom sheet
       Map<String, String> result = {
-                    'name': nameController.text,
-                    'review': reviewController.text
-                  };
-                  Navigator.pop(context, result);
+        'name': nameController.text,
+        'review': reviewController.text
+      };
+      Navigator.pop(context, result);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -42,13 +44,14 @@ class _ReviewFormState extends State<ReviewForm> {
                 controller: nameController,
                 decoration: InputDecoration(
                   labelText: 'Name',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16)),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                      return 'Name cannot be empty';
-                    }
-                    return null; // Input valid
+                    return 'Name cannot be empty';
+                  }
+                  return null; // Input valid
                 },
               ),
               const SizedBox(height: 16),
@@ -56,17 +59,18 @@ class _ReviewFormState extends State<ReviewForm> {
                 controller: reviewController,
                 decoration: InputDecoration(
                   labelText: 'Review',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16)),
                 ),
                 maxLines: 4,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                      return 'Review cannot be empty';
-                    }
-                    if (value.length < 3) {
-                      return 'Review must be at least 1 word!';
-                    }
-                    return null; // Input valid
+                    return 'Review cannot be empty';
+                  }
+                  if (value.length < 3) {
+                    return 'Review must be at least 1 word!';
+                  }
+                  return null; // Input valid
                 }, // Untuk input teks yang lebih panjang
               ),
               const SizedBox(height: 16),

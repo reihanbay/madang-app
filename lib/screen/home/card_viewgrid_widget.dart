@@ -4,7 +4,7 @@ import 'package:madang_app/data/model/restaurant_list_response.dart';
 import 'package:madang_app/static/nav_route.dart';
 
 class CardViewGrid extends StatelessWidget {
-  final Restaurant item;
+  final Restaurants item;
   const CardViewGrid({super.key, required this.item});
 
   @override

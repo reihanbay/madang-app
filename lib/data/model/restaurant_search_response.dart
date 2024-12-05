@@ -3,7 +3,7 @@ import 'package:madang_app/data/model/restaurant_list_response.dart';
 class SearchRestaurantsResponse {
   bool error;
   int founded;
-  List<Restaurant> restaurants;
+  List<Restaurants> restaurants;
 
   SearchRestaurantsResponse({
     required this.error,
@@ -15,8 +15,8 @@ class SearchRestaurantsResponse {
       SearchRestaurantsResponse(
         error: json["error"],
         founded: json["founded"],
-        restaurants: List<Restaurant>.from(
-            json["restaurants"].map((x) => Restaurant.fromJson(x))),
+        restaurants: List<Restaurants>.from(
+            json["restaurants"].map((x) => Restaurants.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

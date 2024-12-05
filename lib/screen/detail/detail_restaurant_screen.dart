@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:madang_app/provider/detail_restaurant_provider.dart';
+import 'package:madang_app/provider/detail/detail_restaurant_provider.dart';
+import 'package:madang_app/provider/favorite_icon_provider.dart';
 import 'package:madang_app/screen/detail/body_detail_widget.dart';
 import 'package:madang_app/screen/detail/form_review_widget.dart';
 import 'package:madang_app/static/detail_result_state.dart';
@@ -14,12 +15,20 @@ class DetailRestaurantScreen extends StatefulWidget {
 }
 
 class _DetailRestaurantScreenState extends State<DetailRestaurantScreen> {
+  late FavoriteIconProvider notifier;
   @override
   void initState() {
     super.initState();
+    notifier = FavoriteIconProvider();
     Future.microtask(() {
       context.read<DetailRestaurantProvider>().fetchDetailRestaurant(widget.id);
     });
+  }
+
+  @override
+  void dispose() {
+    notifier.dispose();
+    super.dispose();
   }
 
   @override
@@ -51,8 +60,7 @@ class _DetailRestaurantScreenState extends State<DetailRestaurantScreen> {
             const Center(child: CircularProgressIndicator()),
           DetailResultErrorState(error: var message) =>
             Center(child: Text(message)),
-          DetailResultLoadedState(item: var item) =>
-            BodyDetailWidget(dataDetail: item),
+          DetailResultLoadedState(item: var item) =>ChangeNotifierProvider<FavoriteIconProvider>.value(value: notifier, child: BodyDetailWidget(dataDetail: item)),
           _ => const SizedBox()
         };
       }),

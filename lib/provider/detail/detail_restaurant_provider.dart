@@ -21,18 +21,17 @@ class DetailRestaurantProvider extends ChangeNotifier {
 
       final result = await _apiServices.getDetailRestaurant(id);
 
-      if(result.error) {
+      if (result.error) {
         _resultDetail = DetailResultErrorState(result.message);
         notifyListeners();
       } else {
         _resultDetail = DetailResultLoadedState(result.restaurant);
         notifyListeners();
       }
-    } 
-    on Exception catch(e) {
+    } on Exception catch (e) {
       _resultDetail = DetailResultErrorState(e.toString());
       notifyListeners();
-    } 
+    }
   }
 
   Future<void> postReviews(String id, String name, String review) async {
@@ -41,14 +40,14 @@ class DetailRestaurantProvider extends ChangeNotifier {
       notifyListeners();
 
       final result = await _apiServices.postReviews(review, name, id);
-    
-      if(result.error) {
+
+      if (result.error) {
         _resultReview = ReviewPostErrorState(result.message);
         notifyListeners();
       } else {
         _resultReview = ReviewPostLoadedState(result.customerReviews);
       }
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       _resultReview = ReviewPostErrorState(e.toString());
       notifyListeners();
     }

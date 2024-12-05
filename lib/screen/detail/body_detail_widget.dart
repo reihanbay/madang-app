@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:madang_app/data/model/restaurant_detail_response.dart';
+import 'package:madang_app/screen/widget/favorite_icon_widget.dart';
 
 class BodyDetailWidget extends StatelessWidget {
   final Restaurant dataDetail;
@@ -120,8 +121,9 @@ class ItemReview extends StatelessWidget {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(item.name, style: Theme.of(context).textTheme.bodyMedium),
+            Expanded(child: Text(item.name, style: Theme.of(context).textTheme.bodyMedium)),
             Text(item.date, style: Theme.of(context).textTheme.bodySmall),
           ],
         ),
@@ -186,6 +188,7 @@ class DetailMobilePage extends StatelessWidget {
                         ],
                       ),
                     ),
+                    Flexible(child: FavoriteWidget(id: dataDetail.id, inDetail: dataDetail,))
                   ],
                 ),
                 const SizedBox.square(
@@ -446,8 +449,7 @@ class DetailWebPage extends StatelessWidget {
                 Container(
                   width: double.infinity,
                   constraints: const BoxConstraints(maxHeight: 100),
-                  margin:
-                      const EdgeInsets.only(bottom: 12),
+                  margin: const EdgeInsets.only(bottom: 12),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Column(

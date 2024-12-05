@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:madang_app/data/model/restaurant_list_response.dart';
+import 'package:madang_app/screen/widget/favorite_icon_widget.dart';
 import 'package:madang_app/static/nav_route.dart';
 
 class CardView extends StatelessWidget {
-  final Restaurant item;
-  const CardView({super.key, required this.item});
+  final Restaurants item;
+  final bool isShownFavorite;
+  const CardView({super.key, required this.item,this.isShownFavorite = false});
 
   @override
   Widget build(BuildContext context) {
@@ -82,13 +84,12 @@ class CardView extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 16),
-                InkWell(
-                  onTap: () {},
-                  child: const Icon(Icons.favorite_outline),
-                )
+                isShownFavorite? FavoriteWidget(id: item.id) : const SizedBox()
               ],
             ),
           ),
         ));
   }
 }
+
+

@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:madang_app/data/model/restaurant_list_response.dart';
 import 'package:madang_app/provider/home/list_restaurant_provider.dart';
-import 'package:madang_app/screen/home/card_view_widget.dart';
-import 'package:madang_app/screen/home/card_viewgrid_widget.dart';
+import 'package:madang_app/screen/widget/restaurant_list_widget.dart';
 import 'package:madang_app/static/list_result_state.dart';
 import 'package:provider/provider.dart';
 
@@ -129,44 +127,5 @@ class SearchField extends StatelessWidget {
                   color: Theme.of(context).colorScheme.onPrimaryContainer)),
           prefixIcon: const Icon(Icons.search)),
     );
-  }
-}
-
-class RestaurantGrid extends StatelessWidget {
-  final List<Restaurant> data;
-  final int gridCount;
-  const RestaurantGrid(
-      {super.key, required this.data, required this.gridCount});
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.count(
-        mainAxisSpacing: 16,
-        crossAxisSpacing: 16,
-        crossAxisCount: gridCount,
-        children: data.map((item) {
-          return CardViewGrid(item: item);
-        }).toList());
-  }
-}
-
-class RestaurantList extends StatelessWidget {
-  const RestaurantList({
-    super.key,
-    required this.data,
-  });
-
-  final List data;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-        shrinkWrap: true,
-        itemCount: data.length,
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: (context, index) {
-          final item = data[index];
-          return CardView(item: item);
-        });
   }
 }
