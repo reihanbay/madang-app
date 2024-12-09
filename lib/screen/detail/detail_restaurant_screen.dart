@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:madang_app/provider/detail/detail_restaurant_provider.dart';
 import 'package:madang_app/provider/favorite_icon_provider.dart';
+import 'package:madang_app/provider/payload_provider.dart';
 import 'package:madang_app/screen/detail/body_detail_widget.dart';
 import 'package:madang_app/screen/detail/form_review_widget.dart';
 import 'package:madang_app/static/detail_result_state.dart';
 import 'package:provider/provider.dart';
 
 class DetailRestaurantScreen extends StatefulWidget {
-  final String id;
-  const DetailRestaurantScreen({super.key, required this.id});
+  final String? id;
+  const DetailRestaurantScreen({super.key, this.id});
 
   @override
   State<DetailRestaurantScreen> createState() => _DetailRestaurantScreenState();
@@ -16,12 +17,16 @@ class DetailRestaurantScreen extends StatefulWidget {
 
 class _DetailRestaurantScreenState extends State<DetailRestaurantScreen> {
   late FavoriteIconProvider notifier;
+
+  String idDetail = "";
   @override
   void initState() {
     super.initState();
+    idDetail = widget.id?? context.read<PayloadProvider>().payload?? "";
     notifier = FavoriteIconProvider();
+
     Future.microtask(() {
-      context.read<DetailRestaurantProvider>().fetchDetailRestaurant(widget.id);
+      context.read<DetailRestaurantProvider>().fetchDetailRestaurant(idDetail);
     });
   }
 
@@ -46,8 +51,8 @@ class _DetailRestaurantScreenState extends State<DetailRestaurantScreen> {
           if (!context.mounted || result is! Map<String, String>) return;
               Future.microtask(() {
                 if(result.isNotEmpty) {
-                  context.read<DetailRestaurantProvider>().postReviews(widget.id, result['name']??"", result["review"]??"");
-                  context.read<DetailRestaurantProvider>().fetchDetailRestaurant(widget.id);
+                  context.read<DetailRestaurantProvider>().postReviews(idDetail, result['name']??"", result["review"]??"");
+                  context.read<DetailRestaurantProvider>().fetchDetailRestaurant(idDetail);
                   }
               });
         },

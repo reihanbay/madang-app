@@ -6,13 +6,40 @@ class SharedPreferencesProvider extends ChangeNotifier{
 
   SharedPreferencesProvider(this._services);
 
+  
+
   String _message = "";
   String get message => _message;
 
   bool _theme = false ;
   bool get theme => _theme;
+
   bool _reminder = false;
   bool get reminder => _reminder;
+
+  String _payload = "";
+  String get payload => _payload;
+
+  Future<void> setPayload(String value) async {
+    try {
+      await _services.setIdRestaurantReminder(value);
+      _message = "Success saved!";
+    } catch (e) {
+      _message = "${e.toString()}!";
+      throw Exception(e.toString());
+    }
+    notifyListeners();
+  }
+
+  void getPayload() async {
+    try {
+      _payload = _services.getIdRestaurantReminder();
+      _message = "Data Success retrieved";
+    } catch (e) {
+      _message = "Failed get data";
+    }
+    notifyListeners();
+  }
 
   Future<void> setTheme(bool value) async {
     try {
@@ -28,6 +55,7 @@ class SharedPreferencesProvider extends ChangeNotifier{
   void getTheme() async {
     try {
       _theme = _services.getThemeSetting();
+       print(_theme.toString());
       _message = "Data Success retrieved";
     } catch (e) {
       _message = "Failed get data";
@@ -38,6 +66,7 @@ class SharedPreferencesProvider extends ChangeNotifier{
   void getDRemind() async {
     try {
        _reminder = _services.getDRemindSetting();
+       print(_reminder.toString());
       _message = "Data Success retrieved";
     } catch (e) {
       _message = "Failed get data";
@@ -48,7 +77,7 @@ class SharedPreferencesProvider extends ChangeNotifier{
 
   Future<void> setDReminder(bool value) async {
     try {
-      await _services.setTheme(value);
+      await _services.setDReminder(value);
       _message = "Success set reminder at 11:00 AM";
     } catch (e) {
       _message = "${e.toString()}!";

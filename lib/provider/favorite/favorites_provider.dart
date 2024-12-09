@@ -54,7 +54,7 @@ class FavoritesProvider extends ChangeNotifier{
       _message = "Restaurant is loaded";
       notifyListeners();
     } catch(e) {
-      debugPrint("asdasda err ${e}");
+      debugPrint("asdasda err $e");
       _message = "Failed get restaurant";
       notifyListeners();
     }

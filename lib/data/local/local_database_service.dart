@@ -9,6 +9,7 @@ class LocalDatabaseService {
   static const String _tableMenus = 'menu';
   static const String _tableReviews = 'reviews';
   static const int _version = 1;
+  
 
   Future<void> createTables(Database db) async {
     await db.execute("""
@@ -53,7 +54,6 @@ class LocalDatabaseService {
 
   Future<bool> insertItem(Restaurant item) async {
     final db = await _initializeDb();
-    print(item.rating);
     final stateRestaurant = await db.rawInsert(
         'Insert into $_tableRestaurant(id, name, description, city, address, pictureId, rating) VALUES ("${item.id}","${item.name}","${item.description}","${item.city}","${item.address}","${item.pictureId}",${item.rating})');
 
@@ -64,7 +64,6 @@ class LocalDatabaseService {
       String values = item.categories.map((data) {
         return '("${item.id}","${data.name}")';
       }).join(',');
-      print(values);
       stateCategory = await db
           .rawInsert('Insert into $_tableCategory(id, name) VALUES $values');
     }
@@ -103,12 +102,14 @@ class LocalDatabaseService {
     final db = await _initializeDb();
     final restaurant = await db.query(_tableRestaurant,
         where: "id = ?", whereArgs: [id], limit: 1);
-    print(restaurant.toString());
-    final category =
-        await db.rawQuery("Select name from $_tableCategory where id = ?", [id]);
-    final foods = await db.rawQuery("Select name from $_tableMenus where id = ? AND type = 'food'", [id]);
-    final drinks = await db.rawQuery("Select name from $_tableMenus where id = ? AND type = 'drink'", [id]);
-    final reviews = await db.rawQuery("Select name, review, date from $_tableReviews where id = ?", [id]);
+    final category = await db
+        .rawQuery("Select name from $_tableCategory where id = ?", [id]);
+    final foods = await db.rawQuery(
+        "Select name from $_tableMenus where id = ? AND type = 'food'", [id]);
+    final drinks = await db.rawQuery(
+        "Select name from $_tableMenus where id = ? AND type = 'drink'", [id]);
+    final reviews = await db.rawQuery(
+        "Select name, review, date from $_tableReviews where id = ?", [id]);
     return restaurant
         .map((result) => Restaurant(
             id: result["id"].toString(),
@@ -117,8 +118,13 @@ class LocalDatabaseService {
             city: result["city"].toString(),
             address: result["address"].toString(),
             pictureId: result["pictureId"].toString(),
-            categories: List<Category>.from(category.map((e) => Category.fromJson(e))),
-            menus: Menus(foods: List<Category>.from(foods.map((menu) => Category.fromJson(menu))), drinks: List<Category>.from(drinks.map((menu) => Category.fromJson(menu)))),
+            categories:
+                List<Category>.from(category.map((e) => Category.fromJson(e))),
+            menus: Menus(
+                foods: List<Category>.from(
+                    foods.map((menu) => Category.fromJson(menu))),
+                drinks: List<Category>.from(
+                    drinks.map((menu) => Category.fromJson(menu)))),
             rating: result["rating"] as double,
             customerReviews: List<CustomerReview>.from(
                 reviews.map((x) => CustomerReview.fromJson(x)))))
