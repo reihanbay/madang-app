@@ -17,30 +17,6 @@ class SharedPreferencesProvider extends ChangeNotifier{
   bool _reminder = false;
   bool get reminder => _reminder;
 
-  String _payload = "";
-  String get payload => _payload;
-
-  Future<void> setPayload(String value) async {
-    try {
-      await _services.setIdRestaurantReminder(value);
-      _message = "Success saved!";
-    } catch (e) {
-      _message = "${e.toString()}!";
-      throw Exception(e.toString());
-    }
-    notifyListeners();
-  }
-
-  void getPayload() async {
-    try {
-      _payload = _services.getIdRestaurantReminder();
-      _message = "Data Success retrieved";
-    } catch (e) {
-      _message = "Failed get data";
-    }
-    notifyListeners();
-  }
-
   Future<void> setTheme(bool value) async {
     try {
       await _services.setTheme(value);
