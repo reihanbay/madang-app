@@ -3,17 +3,11 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
-import 'package:madang_app/data/model/received_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
-
-final StreamController<ReceivedNotifications>
-    didReceiveLocalNotificationStream =
-    StreamController<ReceivedNotifications>.broadcast();
-
 final StreamController<String?> selectNotificationStream =
     StreamController<String?>.broadcast();
 
@@ -57,7 +51,6 @@ class LocalNotificationService {
   }
 
   Future<bool?> requestPermissions() async {
-    
     if (defaultTargetPlatform == TargetPlatform.iOS) {
       final iosImplementation =
           flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
@@ -125,17 +118,12 @@ class LocalNotificationService {
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
         id, title, body, schedule, notificationDetails,
-        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.wallClockTime,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.wallClockTime,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         payload: payload,
         matchDateTimeComponents: DateTimeComponents.time);
   }
-
-  Future<List<PendingNotificationRequest>> pendingNotificationRequest() async {
-    final List<PendingNotificationRequest> pendingNotificationRequest = await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-    return pendingNotificationRequest;
-  }
-
 
   Future<void> cancelAllNotification() async {
     await flutterLocalNotificationsPlugin.cancelAll();

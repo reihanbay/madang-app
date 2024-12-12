@@ -123,7 +123,9 @@ class ItemReview extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(child: Text(item.name, style: Theme.of(context).textTheme.bodyMedium)),
+            Expanded(
+                child: Text(item.name,
+                    style: Theme.of(context).textTheme.bodyMedium)),
             Text(item.date, style: Theme.of(context).textTheme.bodySmall),
           ],
         ),
@@ -145,158 +147,165 @@ class DetailMobilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Hero(
-            tag: dataDetail.pictureId,
-            child: Container(
-              constraints: const BoxConstraints(
-                  minWidth: 360, maxWidth: double.infinity, minHeight: 412),
-              decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondaryContainer,
-                  borderRadius:
-                      const BorderRadius.vertical(bottom: Radius.circular(24)),
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: CachedNetworkImageProvider(
-                          "https://restaurant-api.dicoding.dev/images/medium/${dataDetail.pictureId}"))),
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Hero(
+              tag: dataDetail.pictureId,
+              child: Container(
+                constraints: const BoxConstraints(
+                    minWidth: 360, maxWidth: double.infinity, minHeight: 412),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    borderRadius: const BorderRadius.vertical(
+                        bottom: Radius.circular(24)),
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: CachedNetworkImageProvider(
+                            "https://restaurant-api.dicoding.dev/images/medium/${dataDetail.pictureId}"))),
+              ),
             ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(dataDetail.name,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall
-                                  ?.copyWith(fontWeight: FontWeight.w500)),
-                          Text(dataDetail.city,
-                              style: Theme.of(context).textTheme.bodyLarge),
-                        ],
+            Container(
+              margin: const EdgeInsets.all(24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(dataDetail.name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall
+                                    ?.copyWith(fontWeight: FontWeight.w500)),
+                            Text(dataDetail.city,
+                                style: Theme.of(context).textTheme.bodyLarge),
+                          ],
+                        ),
                       ),
-                    ),
-                    Flexible(child: FavoriteWidget(id: dataDetail.id, inDetail: dataDetail,))
-                  ],
-                ),
-                const SizedBox.square(
-                  dimension: 10,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.star,
-                      color: Colors.amber[400],
-                    ),
-                    const SizedBox(width: 2),
-                    Flexible(
-                        child: Text(dataDetail.rating.toString(),
-                            style: Theme.of(context).textTheme.bodyMedium)),
-                    const SizedBox(width: 2),
-                    Expanded(
-                        child: Text(
-                            "(${dataDetail.customerReviews.length} Reviews)",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                    letterSpacing: 1,
-                                    fontWeight: FontWeight.w300))),
-                  ],
-                ),
-                const SizedBox(height: 6),
-                Row(
-                  children: dataDetail.categories
-                      .map((category) => Container(
-                          padding: const EdgeInsets.all(6),
-                          margin: const EdgeInsets.all(2),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .tertiaryContainer),
-                          child: Text(category.name,
+                      Flexible(
+                          child: FavoriteWidget(
+                        id: dataDetail.id,
+                        inDetail: dataDetail,
+                      ))
+                    ],
+                  ),
+                  const SizedBox.square(
+                    dimension: 10,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.star,
+                        color: Colors.amber[400],
+                      ),
+                      const SizedBox(width: 2),
+                      Flexible(
+                          child: Text(dataDetail.rating.toString(),
+                              style: Theme.of(context).textTheme.bodyMedium)),
+                      const SizedBox(width: 2),
+                      Expanded(
+                          child: Text(
+                              "(${dataDetail.customerReviews.length} Reviews)",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
                                   ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiary))))
-                      .toList(),
-                ),
-                const SizedBox.square(dimension: 24),
-                Text("Deskripsi",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(fontWeight: FontWeight.w500)),
-                const SizedBox.square(dimension: 8),
-                Text(dataDetail.description,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    textAlign: TextAlign.justify),
-                const SizedBox.square(dimension: 24),
-                Text("Menu",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(fontWeight: FontWeight.w500)),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ItemMenu(
-                        dataDetail: dataDetail,
-                        context: context,
-                        url: 'assets/food_icon.svg',
-                        flagMenu: 'foods'),
-                    const SizedBox(width: 16),
-                    ItemMenu(
-                        dataDetail: dataDetail,
-                        context: context,
-                        url: 'assets/drink_icon.svg',
-                        flagMenu: 'drinks'),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-            child: Text("Reviews",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge
-                    ?.copyWith(fontWeight: FontWeight.w500)),
-          ),
-          Container(
-            width: double.infinity,
-            constraints: const BoxConstraints(maxHeight: 100),
-            margin: const EdgeInsets.only(left: 24, right: 24, bottom: 12),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: dataDetail.customerReviews.reversed
-                    .map((item) => ItemReview(context: context, item: item))
-                    .toList(),
+                                      letterSpacing: 1,
+                                      fontWeight: FontWeight.w300))),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    children: dataDetail.categories
+                        .map((category) => Container(
+                            padding: const EdgeInsets.all(6),
+                            margin: const EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .tertiaryContainer),
+                            child: Text(category.name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiary))))
+                        .toList(),
+                  ),
+                  const SizedBox.square(dimension: 24),
+                  Text("Deskripsi",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.copyWith(fontWeight: FontWeight.w500)),
+                  const SizedBox.square(dimension: 8),
+                  Text(dataDetail.description,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      textAlign: TextAlign.justify),
+                  const SizedBox.square(dimension: 24),
+                  Text("Menu",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.copyWith(fontWeight: FontWeight.w500)),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      ItemMenu(
+                          dataDetail: dataDetail,
+                          context: context,
+                          url: 'assets/food_icon.svg',
+                          flagMenu: 'foods'),
+                      const SizedBox(width: 16),
+                      ItemMenu(
+                          dataDetail: dataDetail,
+                          context: context,
+                          url: 'assets/drink_icon.svg',
+                          flagMenu: 'drinks'),
+                    ],
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: Text("Reviews",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(fontWeight: FontWeight.w500)),
+            ),
+            Container(
+              width: double.infinity,
+              constraints: const BoxConstraints(maxHeight: 100),
+              margin: const EdgeInsets.only(left: 24, right: 24, bottom: 12),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: dataDetail.customerReviews.reversed
+                      .map((item) => ItemReview(context: context, item: item))
+                      .toList(),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -331,136 +340,147 @@ class DetailWebPage extends StatelessWidget {
         Expanded(
           child: Container(
             margin: const EdgeInsets.all(24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: ScrollConfiguration(
+              behavior:
+                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(dataDetail.name,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall
-                                  ?.copyWith(fontWeight: FontWeight.w500)),
-                          Text(dataDetail.city,
-                              style: Theme.of(context).textTheme.bodyLarge),
-                        ],
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(dataDetail.name,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall
+                                      ?.copyWith(fontWeight: FontWeight.w500)),
+                              Text(dataDetail.city,
+                                  style: Theme.of(context).textTheme.bodyLarge),
+                            ],
+                          ),
+                        ),
+                        Flexible(
+                            child: FavoriteWidget(
+                          id: dataDetail.id,
+                          inDetail: dataDetail,
+                        ))
+                      ],
+                    ),
+                    const SizedBox.square(
+                      dimension: 10,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.star,
+                          color: Colors.amber[400],
+                        ),
+                        const SizedBox(width: 2),
+                        Flexible(
+                            child: Text(dataDetail.rating.toString(),
+                                style: Theme.of(context).textTheme.bodyMedium)),
+                        const SizedBox(width: 2),
+                        Expanded(
+                            child: Text(
+                                "(${dataDetail.customerReviews.length} Reviews)",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                        letterSpacing: 1,
+                                        fontWeight: FontWeight.w300))),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      children: dataDetail.categories
+                          .map((category) => Container(
+                              padding: const EdgeInsets.all(6),
+                              margin: const EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .tertiaryContainer),
+                              child: Text(category.name,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary))))
+                          .toList(),
+                    ),
+                    const SizedBox.square(dimension: 24),
+
+                    /* Description */
+                    Text("Deskripsi",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(fontWeight: FontWeight.w500)),
+                    const SizedBox.square(dimension: 8),
+                    Text(dataDetail.description,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        textAlign: TextAlign.justify),
+                    const SizedBox.square(dimension: 24),
+
+                    /* Menus */
+                    Text("Menu",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(fontWeight: FontWeight.w500)),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        ItemMenu(
+                            dataDetail: dataDetail,
+                            context: context,
+                            url: 'assets/food_icon.svg',
+                            flagMenu: 'foods'),
+                        const SizedBox(width: 16),
+                        ItemMenu(
+                            dataDetail: dataDetail,
+                            context: context,
+                            url: 'assets/drink_icon.svg',
+                            flagMenu: 'drinks'),
+                      ],
+                    ),
+                    const SizedBox.square(dimension: 24),
+                    /* Reviews */
+                    Text("Reviews",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(fontWeight: FontWeight.w500)),
+                    Container(
+                      width: double.infinity,
+                      constraints: const BoxConstraints(maxHeight: 100),
+                      margin: const EdgeInsets.only(bottom: 12),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          children: dataDetail.customerReviews.reversed
+                              .map((item) =>
+                                  ItemReview(context: context, item: item))
+                              .toList(),
+                        ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox.square(
-                  dimension: 10,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.star,
-                      color: Colors.amber[400],
-                    ),
-                    const SizedBox(width: 2),
-                    Flexible(
-                        child: Text(dataDetail.rating.toString(),
-                            style: Theme.of(context).textTheme.bodyMedium)),
-                    const SizedBox(width: 2),
-                    Expanded(
-                        child: Text(
-                            "(${dataDetail.customerReviews.length} Reviews)",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                    letterSpacing: 1,
-                                    fontWeight: FontWeight.w300))),
-                  ],
-                ),
-                const SizedBox(height: 6),
-                Row(
-                  children: dataDetail.categories
-                      .map((category) => Container(
-                          padding: const EdgeInsets.all(6),
-                          margin: const EdgeInsets.all(2),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .tertiaryContainer),
-                          child: Text(category.name,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiary))))
-                      .toList(),
-                ),
-                const SizedBox.square(dimension: 24),
-
-                /* Description */
-                Text("Deskripsi",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(fontWeight: FontWeight.w500)),
-                const SizedBox.square(dimension: 8),
-                Text(dataDetail.description,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    textAlign: TextAlign.justify),
-                const SizedBox.square(dimension: 24),
-
-                /* Menus */
-                Text("Menu",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(fontWeight: FontWeight.w500)),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ItemMenu(
-                        dataDetail: dataDetail,
-                        context: context,
-                        url: 'assets/food_icon.svg',
-                        flagMenu: 'foods'),
-                    const SizedBox(width: 16),
-                    ItemMenu(
-                        dataDetail: dataDetail,
-                        context: context,
-                        url: 'assets/drink_icon.svg',
-                        flagMenu: 'drinks'),
-                  ],
-                ),
-                const SizedBox.square(dimension: 24),
-                /* Reviews */
-                Text("Reviews",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(fontWeight: FontWeight.w500)),
-                Container(
-                  width: double.infinity,
-                  constraints: const BoxConstraints(maxHeight: 100),
-                  margin: const EdgeInsets.only(bottom: 12),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: Column(
-                      children: dataDetail.customerReviews.reversed
-                          .map((item) =>
-                              ItemReview(context: context, item: item))
-                          .toList(),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),

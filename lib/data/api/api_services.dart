@@ -7,10 +7,12 @@ import 'package:madang_app/data/model/restaurant_reviews_response.dart';
 import 'package:madang_app/data/model/restaurant_search_response.dart';
 
 class ApiServices {
-  static const String _baseUrl = "https://restaurant-api.dicoding.dev/";
+  http.Client client;
+  static const String _baseUrl = "https://restaurant-api.dicoding.dev";
 
+  ApiServices({required this.client});
   Future<RestaurantsResponse> getRestaurants() async {
-    final response = await http.get(Uri.parse("$_baseUrl/list"));
+    final response = await client.get(Uri.parse("$_baseUrl/list"));
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       return RestaurantsResponse.fromJson(jsonDecode(response.body));
@@ -20,7 +22,7 @@ class ApiServices {
   }
 
   Future<DetailRestaurantResponse> getDetailRestaurant(String id) async {
-    final response = await http.get(Uri.parse("$_baseUrl/detail/$id"));
+    final response = await client.get(Uri.parse("$_baseUrl/detail/$id"));
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       return DetailRestaurantResponse.fromJson(jsonDecode(response.body));
@@ -30,7 +32,7 @@ class ApiServices {
   }
 
   Future<SearchRestaurantsResponse> searchRestaurants(String query) async {
-    final response = await http.get(Uri.parse('$_baseUrl/search?q=$query'));
+    final response = await client.get(Uri.parse('$_baseUrl/search?q=$query'));
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       return SearchRestaurantsResponse.fromJson(jsonDecode(response.body));
@@ -40,7 +42,7 @@ class ApiServices {
   }
 
   Future<ReviewsResponse> postReviews(String review, String name, String id) async {
-    final response = await http.post(Uri.parse('$_baseUrl/review'), 
+    final response = await client.post(Uri.parse('$_baseUrl/review'), 
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

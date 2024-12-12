@@ -9,6 +9,17 @@ class LocalDatabaseService {
   static const String _tableMenus = 'menu';
   static const String _tableReviews = 'reviews';
   static const int _version = 1;
+
+  static final LocalDatabaseService _instance = LocalDatabaseService._internal();
+  factory LocalDatabaseService() => _instance;
+  LocalDatabaseService._internal();
+
+  Database? _db;
+  Future<Database> get database async {
+    if(_db != null) return _db!;
+    _db = await _initializeDb();
+    return _db!;
+  }
   
 
   Future<void> createTables(Database db) async {
@@ -53,7 +64,7 @@ class LocalDatabaseService {
   }
 
   Future<bool> insertItem(Restaurant item) async {
-    final db = await _initializeDb();
+    final db = await database;
     final stateRestaurant = await db.rawInsert(
         'Insert into $_tableRestaurant(id, name, description, city, address, pictureId, rating) VALUES ("${item.id}","${item.name}","${item.description}","${item.city}","${item.address}","${item.pictureId}",${item.rating})');
 
@@ -92,14 +103,14 @@ class LocalDatabaseService {
   }
 
   Future<List<Restaurants>> getAllItems() async {
-    final db = await _initializeDb();
+    final db = await database;
     final result = await db.query(_tableRestaurant);
 
     return result.map((result) => Restaurants.fromJson(result)).toList();
   }
 
   Future<Restaurant?> getItemById(String id) async {
-    final db = await _initializeDb();
+    final db = await database;
     final restaurant = await db.query(_tableRestaurant,
         where: "id = ?", whereArgs: [id], limit: 1);
     final category = await db
@@ -132,7 +143,7 @@ class LocalDatabaseService {
   }
 
   Future<bool> removeItem(String id) async {
-    final db = await _initializeDb();
+    final db = await database;
     final restaurant =
         await db.delete(_tableRestaurant, where: 'id = ?', whereArgs: [id]);
     final categories =
@@ -144,4 +155,13 @@ class LocalDatabaseService {
 
     return restaurant == 1 && categories == 1 && menus == 1 && reviews == 1;
   }
+
+  Future<void> clearDb() async {
+    final db = await database;
+    await db.delete(_tableRestaurant);
+    await db.delete(_tableCategory);
+    await db.delete(_tableMenus);
+    await db.delete(_tableReviews);
+  }
+  
 }

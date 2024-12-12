@@ -21,12 +21,6 @@ class LocalNotificationsProvider extends ChangeNotifier {
     notificationService.showDailyNotification(id: 5,title: title, body: body, payload: payload);
   }
 
-  Future<void> checkPendingNotificationRequest()async {
-    pendingNotificationRequest = await notificationService.pendingNotificationRequest();
-    notifyListeners();
-  }
-
-
   Future<void> cancelNotifications() async {
     await notificationService.cancelAllNotification();
   }

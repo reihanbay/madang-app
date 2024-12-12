@@ -28,8 +28,6 @@ class _SettingScreenState extends State<SettingScreen> {
     if (Provider.of<SharedPreferencesProvider>(context, listen: false)
         .reminder) {
       context.read<WorkmanagerService>().runPeriodicTask();
-      // final payload = sharedPrefProvider.payload;
-      // localPrefProvider.showDailyNotification("title", "body", payload);
     } else {
       context.read<WorkmanagerService>().cancellAlltask();
       context.read<LocalNotificationsProvider>().cancelNotifications();

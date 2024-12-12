@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:madang_app/data/api/api_services.dart';
 import 'package:madang_app/data/local/local_database_service.dart';
 import 'package:madang_app/provider/bottom_nav_provider.dart';
@@ -35,12 +36,12 @@ void main() async {
     payload = response?.payload;
     route = NavRoute.detailRestaurant.route;
   }
-
+ 
   
 
   final prefs = await SharedPreferences.getInstance();
   runApp(MultiProvider(providers: [
-    Provider(create: (context) => ApiServices()),
+    Provider(create: (context) => ApiServices(client: Client()), dispose: (_,service) {service.client.close();}),
     Provider(create: (context) => SharedPreferencesServices(prefs)),
     Provider(create: (context) => LocalDatabaseService()),
     Provider(create: (context) => WorkmanagerService()..init()),

@@ -32,6 +32,7 @@ class CardView extends StatelessWidget {
                     imageUrl:
                         'https://restaurant-api.dicoding.dev/images/medium/${item.pictureId}',
                     imageBuilder: (context, imageProvider) => Container(
+                      key : const ValueKey("decorationCacheImage"),
                       width: 80.0,
                       height: 80.0,
                       decoration: BoxDecoration(

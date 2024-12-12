@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:madang_app/data/model/restaurant_list_response.dart';
 import 'package:madang_app/provider/favorite_icon_provider.dart';
-import 'package:madang_app/screen/home/card_view_widget.dart';
-import 'package:madang_app/screen/home/card_viewgrid_widget.dart';
+import 'package:madang_app/screen/widget/card_view_widget.dart';
+import 'package:madang_app/screen/widget/card_viewgrid_widget.dart';
 import 'package:provider/provider.dart';
 
 class RestaurantList extends StatelessWidget {

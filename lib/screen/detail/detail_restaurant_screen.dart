@@ -3,7 +3,7 @@ import 'package:madang_app/provider/detail/detail_restaurant_provider.dart';
 import 'package:madang_app/provider/favorite_icon_provider.dart';
 import 'package:madang_app/provider/payload_provider.dart';
 import 'package:madang_app/screen/detail/body_detail_widget.dart';
-import 'package:madang_app/screen/detail/form_review_widget.dart';
+import 'package:madang_app/screen/widget/form_review_widget.dart';
 import 'package:madang_app/static/detail_result_state.dart';
 import 'package:provider/provider.dart';
 

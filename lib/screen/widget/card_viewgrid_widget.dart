@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:madang_app/data/model/restaurant_list_response.dart';
+import 'package:madang_app/screen/widget/favorite_icon_widget.dart';
 import 'package:madang_app/static/nav_route.dart';
 
 class CardViewGrid extends StatelessWidget {
   final Restaurants item;
-  const CardViewGrid({super.key, required this.item});
+  final bool isShownFavorite;
+  const CardViewGrid(
+      {super.key, required this.item, this.isShownFavorite = false});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +44,8 @@ class CardViewGrid extends StatelessWidget {
                     ),
                     placeholder: (context, url) =>
                         const Center(child: CircularProgressIndicator()),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
                 ),
               ),
@@ -61,6 +65,9 @@ class CardViewGrid extends StatelessWidget {
                   const SizedBox(width: 2),
                   Text(item.rating.toString(),
                       style: Theme.of(context).textTheme.bodyMedium),
+                  isShownFavorite
+                      ? FavoriteWidget(id: item.id)
+                      : const SizedBox()
                 ],
               )
             ],

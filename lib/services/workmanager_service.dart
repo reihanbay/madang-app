@@ -5,6 +5,7 @@ import 'package:madang_app/data/model/restaurant_list_response.dart';
 import 'package:madang_app/services/local_notification_service.dart';
 import 'package:madang_app/static/reminder_workmanager.dart';
 import 'package:workmanager/workmanager.dart';
+import 'package:http/http.dart' as http;
 
 @pragma('vm:entry-point')
 void callbackDispatcher() {
@@ -12,7 +13,7 @@ void callbackDispatcher() {
     if (task == ReminderWorkmanager.periodicTask.taskName ||
         task == ReminderWorkmanager.periodicTask.uniqueName ||
         task == Workmanager.iOSBackgroundTask) {
-      final apiService = ApiServices();
+      final apiService = ApiServices(client : http.Client());
 
       List<Restaurants> resultList;
       final result = await apiService.getRestaurants();
@@ -56,7 +57,7 @@ class WorkmanagerService {
 
   Duration calculationInitialDelay() {
     final now = DateTime.now();
-    final targetTime = DateTime(now.year, now.month, now.day, 15, 18);
+    final targetTime = DateTime(now.year, now.month, now.day, 11);
 
     if (now.isAfter(targetTime)) {
       //Jika waktu sekarang sudah lewat jam 11, jadwalkan hari berikutnya

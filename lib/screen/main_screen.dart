@@ -47,6 +47,7 @@ class _MainScreenState extends State<MainScreen> {
             selectedIndex: context.watch<BottomNavProvider>().indexBottomNav,
             destinations: const [
               NavigationDestination(
+                  key: ValueKey("navhome"),
                   selectedIcon: Icon(Icons.home),
                   icon: Icon(Icons.home_outlined),
                   label: "Home"),

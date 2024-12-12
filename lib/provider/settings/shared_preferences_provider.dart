@@ -6,8 +6,6 @@ class SharedPreferencesProvider extends ChangeNotifier{
 
   SharedPreferencesProvider(this._services);
 
-  
-
   String _message = "";
   String get message => _message;
 
@@ -31,7 +29,6 @@ class SharedPreferencesProvider extends ChangeNotifier{
   void getTheme() async {
     try {
       _theme = _services.getThemeSetting();
-       print(_theme.toString());
       _message = "Data Success retrieved";
     } catch (e) {
       _message = "Failed get data";
@@ -42,7 +39,6 @@ class SharedPreferencesProvider extends ChangeNotifier{
   void getDRemind() async {
     try {
        _reminder = _services.getDRemindSetting();
-       print(_reminder.toString());
       _message = "Data Success retrieved";
     } catch (e) {
       _message = "Failed get data";
